@@ -39,6 +39,7 @@ public class CachedUidGeneratorTest {
      */
     @Test
     public void testSerialGenerate() throws IOException {
+        long startTime = System.currentTimeMillis();
         // Generate UID serially
         Set<Long> uidSet = new HashSet<>(SIZE);
         for (int i = 0; i < SIZE; i++) {
@@ -47,7 +48,9 @@ public class CachedUidGeneratorTest {
 
         // Check UIDs are all unique
         checkUniqueID(uidSet);
-    }
+
+        System.out.printf("total take: %s ms%n", (System.currentTimeMillis() - startTime));
+   }
 
     /**
      * Test for parallel generate
@@ -57,6 +60,8 @@ public class CachedUidGeneratorTest {
      */
     @Test
     public void testParallelGenerate() throws InterruptedException, IOException {
+        long startTime = System.currentTimeMillis();
+
         AtomicInteger control = new AtomicInteger(-1);
         Set<Long> uidSet = new ConcurrentSkipListSet<>();
 
@@ -80,6 +85,9 @@ public class CachedUidGeneratorTest {
 
         // Check UIDs are all unique
         checkUniqueID(uidSet);
+
+        System.out.printf("total take: %s ms%n", (System.currentTimeMillis() - startTime));
+
     }
 
     /**
